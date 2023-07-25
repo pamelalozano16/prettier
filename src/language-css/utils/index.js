@@ -66,6 +66,13 @@ function insideValueFunctionNode(path, functionName) {
   return funcAncestorNode?.value?.toLowerCase() === functionName;
 }
 
+function isMixinCall(path) {
+  const funcAncestorNode = path.findAncestor(
+    (node) => node.name === "include" 
+  );
+  return funcAncestorNode?.value?.group?.group?.value;
+}
+
 function insideICSSRuleNode(path) {
   const ruleAncestorNode = path.findAncestor(
     (node) => node.type === "css-rule",
@@ -433,4 +440,5 @@ export {
   isConfigurationNode,
   isParenGroupNode,
   isVarFunctionNode,
+  isMixinCall
 };

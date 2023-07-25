@@ -20,6 +20,7 @@ import getVisitorKeys from "./get-visitor-keys.js";
 import {
   maybeToLowerCase,
   insideValueFunctionNode,
+  isMixinCall,
   insideICSSRuleNode,
   insideAtRuleNode,
   isKeyframeAtRuleKeywords,
@@ -506,7 +507,8 @@ function genericPrint(path, options, print) {
     case "value-func":
       return [
         node.value,
-        insideAtRuleNode(path, "supports") && isMediaAndSupportsKeywords(node)
+        (insideAtRuleNode(path, "supports") && isMediaAndSupportsKeywords(node))
+        || (isMixinCall(path) != undefined && insideValueFunctionNode(path, isMixinCall(path)))
           ? " "
           : "",
         print("group"),
